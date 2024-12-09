@@ -13,7 +13,11 @@ fn load_dlls() -> Result<(), std::io::Error> {
     };
     for entry in std::fs::read_dir(exe_dir.join("dlls"))? {
         let path = entry.unwrap().path();
-        if path.extension().unwrap_or_default().to_ascii_lowercase() == "dll" {
+        if path
+            .extension()
+            .unwrap_or_default()
+            .eq_ignore_ascii_case("dll")
+        {
             let path = path.into_os_string();
 
             use std::os::windows::ffi::OsStrExt;
