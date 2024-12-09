@@ -39,11 +39,9 @@ pub fn proxy_dll(input: TokenStream) -> TokenStream {
     for (target_n, target) in parsed.dlls.iter().enumerate() {
         let dll = format!("{target}.dll");
 
-        let file_string = std::fs::read_to_string(format!(
-            "{}/../defs/{target}.def",
-            env!("CARGO_MANIFEST_DIR")
-        ))
-        .unwrap();
+        let file_string =
+            std::fs::read_to_string(format!("{}/defs/{target}.def", env!("CARGO_MANIFEST_DIR")))
+                .unwrap();
         let file = msvc_def::parse(&strip_comments(&file_string)).unwrap();
 
         targets.push(quote! {#dll});
